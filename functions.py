@@ -1,16 +1,8 @@
+from definitions import *
 import pygame
-from pieces import *
-from chess_board import *
-legal_moves = []
-king_move_count = 0
-rook_move_count = 0
-move_count = 1
-move = ""
-move_right = "w"
-screen = pygame.display.set_mode((800,600))
 
 def get_legal_moves():
-    global move_right,move_count
+    global move_right,move_count, move
     possible_piece_pos = piece_pos
     legal_moves.clear()
     reiheW = "abcdefgh"
@@ -763,33 +755,47 @@ def get_legal_moves():
     return legal_moves
 
 
-def draw_pieces():
+
+def draw_pieces(screen):
+    global move
     for i,char in piece_pos.items():
         image_draw_piece = pygame.image.load("images/"+i+".png")
         list_sqq = sq[char].split("|")
         screen.blit(image_draw_piece,(int(list_sqq[0]),int(list_sqq[1])))
 
 
-def is_legal():
-    global move_count,king_move_count,rook_move_count,move_right
+def is_legal(move):
+    global move_count,king_move_count,rook_move_count
     if move == "":
         return False
     if move == "0-0-0" or move == "0-0":
         if move in get_legal_moves():
             move_count+=1
+            
             return True
+    print(move)
+    print("TEST")
     if move != "":
-        #if move[0] == "R" or move[0] == "N" or move[0] == "B" or move[0] == "Q" or move[0] == "K" or move[0] == "P":
-            #if move[1]== "1" or move[1] == "2" or move[1] == "3" or move[1] == "4" or move[1] == "5" or move[1] == "6" or move[1] == "7" or move[1] == "8":
+        print("step0 islegal")
+        if move[0] == "R" or move[0] == "N" or move[0] == "B" or move[0] == "Q" or move[0] == "K" or move[0] == "P":
+            print("step1 islegal")
+            if move[1]== "1" or move[1] == "2" or move[1] == "3" or move[1] == "4" or move[1] == "5" or move[1] == "6" or move[1] == "7" or move[1] == "8":
+                print("step2 islegal")
                 if move in get_legal_moves():
-                    keys = [key for key, v in piece_pos.items() if v == move[2]+move[3]]
-                    if keys:
-                        if keys[0] in piece_pos:
-                            del piece_pos[keys[0]]
+                    print("step3 islegal")
+                    key = [k for k, v in piece_pos.items() if v == move[2]+move[3]]
+                    print("step4 islegal")
+                    if key:
+                        print("step5 islegal")
+                        if key[0] in piece_pos:
+                            print("step6 islegal")
+                            del piece_pos[key[0]]
+                            print("step7 islegal")
                             print("Movecount:",move_count)
                             print("Das sind alle möglichen Züge1:\n",get_legal_moves())
                             print(move_right)
                             move_count+=1
+                            print("IS LEGAL WORKS")
                             return True
                     else:
                         if move[0]== "K":
@@ -800,16 +806,22 @@ def is_legal():
                         print("Das sind alle möglichen Züge2:\n",get_legal_moves())
                         print(move_right)
                         move_count+=1
+                        print("IS LEGAL WORKS")
+
                         return True
 
-
-def move_piece():
-    global move_right,move,last_last_move,last_move
-    if is_legal():
+def move_piece(move):
+    global move_right,last_last_move,before_piece_pos,last_move
+    if move != "":
+        print("ACDC")
+    if is_legal(move):
+        print("move piece kind of WORKS")
         if len(move) == 4 and move != "0-0-0" and move!="0-0": 
+            before_piece_pos = piece_pos
             piece_pos[move_right+move[0]+move[1]] = move[2]+move[3]
             last_last_move = last_move
             last_move = move
+            print("move piece WORKS")
             move = ""
         if move == "0-0-0":
             if move_right == "w":
@@ -845,5 +857,3 @@ def move_piece():
                         print(key[0])
                         if key[0] in piece_pos:
                             del piece_pos[key[0]]
-
-
