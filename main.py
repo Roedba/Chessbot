@@ -1534,7 +1534,7 @@ def get_reverse_legal_moves():
     return reverse_legal_moves
 """
 print(get_legal_moves())
-
+print(move_right)
 running = True
 
 while running:
@@ -1546,7 +1546,6 @@ while running:
                 move = user_text
                 user_text = ""
                 move_piece(move)
-                print(legal_moves)
             elif event.key == pygame.K_BACKSPACE:
                 user_text = user_text[:-1]
             else:
