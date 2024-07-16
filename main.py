@@ -1538,19 +1538,28 @@ while running:
                 move = user_text
                 user_text = ""
                 move_piece(move)
+                if is_checkmate() == "CHECKMATE":
+                    if move_right == "w":
+                        winner = "black"
+                    if move_right == "b":
+                        winner = "white"
+                    user_text = "CHECKMATE, "+ winner+" won the game!"
+                if is_checkmate() == "STALEMATE":
+                    user_text = "STALEMATE!"
+
             elif event.key == pygame.K_BACKSPACE:
                 user_text = user_text[:-1]
             else:
                 user_text += event.unicode
+    
     screen.fill((0,0,0))
-
     pygame.draw.rect(screen, (0,0,0), input_rect)
     pygame.draw.rect(screen, (0,0,0), input_rect, 2)
     text_surface = font.render(user_text, True, (255,255,255))
     width = max(200, text_surface.get_width()+10)
     input_rect.w = width
     screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
-
+    
     screen.blit(brett, (0, 0))
     draw_pieces(screen)
     clock.tick(10)

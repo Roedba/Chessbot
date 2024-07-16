@@ -767,7 +767,9 @@ def get_legal_moves():
     return true_legal_moves
     """
     filter_legal_moves()
+
     return legal_moves
+
 def filter_legal_moves():
     global legal_moves
     new_legal_moves = []
@@ -805,6 +807,13 @@ def is_check(enemy_moves):
         if current_move[2]+current_move[3] == piece_pos[move_right +"K1"]:
             
             return True
+
+def is_checkmate():
+    if not get_legal_moves():
+        if is_check(get_enemy_moves()):
+            return "CHECKMATE"
+        else:
+            return "STALEMATE"
 
 def get_enemy_moves():
     global opposite_move_rightove_right,move_count, move
