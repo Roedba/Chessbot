@@ -26,14 +26,6 @@ pawnB = pygame.image.load("images/bP1.png")
 pawnW = pygame.image.load("images/wP1.png")
 
 
-#def is_check():
-    #king_pos = possible_piece_pos[move_right+"K1"]
-    #for move in get_reverse_legal_moves():
-    #    if move[2]+move[3]==king_pos:
-    #        return True
-    #return False
-
-
 """
 def get_next_legal_moves(the_legal_move):
     global move_right,move_count
@@ -1533,8 +1525,8 @@ def get_reverse_legal_moves():
                         reverse_legal_moves.append("0-0-0") 
     return reverse_legal_moves
 """
-print(get_legal_moves())
 print(move_right)
+print(get_legal_moves())
 running = True
 
 while running:

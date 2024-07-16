@@ -753,16 +753,48 @@ def get_legal_moves():
                     key = [k for k, v in piece_pos.items() if v == "d8"[1]]
                     if not key:
                         legal_moves.append("0-0-0") 
-    
-    if is_check(get_enemy_moves()):
+    """
+    true_legal_moves = []
+    if not is_check(get_enemy_moves()):
         for current_move in legal_moves:
             piece_pos_change = piece_pos[move_right+current_move[0]+current_move[1]]
             piece_pos[move_right+current_move[0]+current_move[1]]=current_move[2]+current_move[3]
-            if is_check(get_enemy_moves()):
+            if not is_check(get_enemy_moves()):
                 #print(current_move)
-                legal_moves.remove(current_move)
+                true_legal_moves.append(current_move)
             piece_pos[move_right+current_move[0]+current_move[1]]= piece_pos_change
     
+    return true_legal_moves
+    """
+    filter_legal_moves()
+    return legal_moves
+def filter_legal_moves():
+    global legal_moves
+    new_legal_moves = []
+    for current_move in legal_moves:
+        # Speichern der aktuellen Position des bewegten Stücks
+        piece_pos_change = piece_pos[move_right + current_move[0] + current_move[1]]
+
+
+        #aus piece_pos die geschlagene figur entfernen und dann gucken ob ohne die figur man immernoch im schach steht
+        piece_to_delete = [key for key, value in piece_pos.items() if value == current_move[2]+current_move[3]]
+        print("Piece_TO_DELETE: ", piece_to_delete)
+        if piece_to_delete:
+            for key in piece_to_delete:
+                del piece_pos[key]
+
+
+        # Den Zug ausführen
+        piece_pos[move_right + current_move[0] + current_move[1]] = current_move[2] + current_move[3]
+        # Überprüfen, ob der Zug den König in Schach lässt
+        if not is_check(get_enemy_moves()):
+            new_legal_moves.append(current_move)
+        
+        # Den Zug rückgängig machen
+        piece_pos[move_right + current_move[0] + current_move[1]] = piece_pos_change
+        for key in piece_to_delete:
+            piece_pos[key] = current_move[2]+current_move[3]
+    legal_moves = new_legal_moves
     return legal_moves
 
 def is_check(enemy_moves):
@@ -771,6 +803,7 @@ def is_check(enemy_moves):
     print("THESE ARE YOUR MOVES:\n", legal_moves)
     for current_move in enemy_moves:
         if current_move[2]+current_move[3] == piece_pos[move_right +"K1"]:
+            
             return True
 
 def get_enemy_moves():
