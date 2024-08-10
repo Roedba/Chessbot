@@ -11,6 +11,7 @@ starting_pos = {
     "bP1": "a7", "bP2": "b7", "bP3": "c7", "bP4": "d7", "bP5": "e7", "bP6": "f7", "bP7": "g7", "bP8": "h7"
 }
 possible_piece_pos=piece_pos
+last_piece_pos=piece_pos
 
 sq = {'a8': '42|25', 'b8': '101|25', 'c8': '160|25', 'd8': '219|25', 'e8': '278|25', 'f8': '337|25', 'g8': '396|25', 'h8': '455|25',
        'a7': '42|84', 'b7': '101|84', 'c7': '160|84', 'd7': '219|84', 'e7': '278|84', 'f7': '337|84', 'g7': '396|84', 'h7': '455|84',
@@ -25,7 +26,6 @@ enemy_moves = []
 legal_moves = []
 reverse_legal_moves=[]
 next_legal_moves=[]
-before_piece_pos = []
 last_last_move = ""
 last_move = ""
 move_count = 1
@@ -35,3 +35,5 @@ opposite_move_right = "b"
 king_move_count = 0
 rook_move_count = 0
 user_text = ""
+move_count2 = 0
+enpassant_moves = []

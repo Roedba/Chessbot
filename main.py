@@ -1525,8 +1525,6 @@ def get_reverse_legal_moves():
                         reverse_legal_moves.append("0-0-0") 
     return reverse_legal_moves
 """
-print(move_right)
-print(get_legal_moves())
 running = True
 
 while running:
@@ -1538,10 +1536,12 @@ while running:
                 move = user_text
                 user_text = ""
                 move_piece(move)
+                print(get_legal_moves())
+                move_count2 += 1
                 if is_checkmate() == "CHECKMATE":
-                    if move_right == "w":
+                    if move_count2 % 2 == 0:
                         winner = "black"
-                    if move_right == "b":
+                    if move_count2 % 2 != 0:
                         winner = "white"
                     user_text = "CHECKMATE, "+ winner+" won the game!"
                 if is_checkmate() == "STALEMATE":

@@ -2,9 +2,9 @@ from definitions import *
 import pygame
 
 def get_legal_moves():
-    global move_right,move_count, move
-    possible_piece_pos = piece_pos
+    global move_right,move_count, move, last_move
     legal_moves.clear()
+    enpassant_moves.clear()
     reiheW = "abcdefgh"
     zeileW = "12345678"
     zeileB = "87654321"
@@ -370,7 +370,20 @@ def get_legal_moves():
                         now_square = [reiheW[reiheW.find(square[0])-1],zeileW[zeileW.find(square[1])+1]]
                         if now_square[0]+now_square[1] in piece_pos.values():
                             legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
-                    
+                    if square[1] == "5" and last_move[0] == "P" and reiheW.find(last_move[2])+1 == reiheW.find(square[0]):
+                        if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 7:
+                            if int(piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 5:
+                                now_square = [reiheW[reiheW.find(square[0])-1],zeileW[zeileW.find(square[1])+1]]
+                                legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                                print(legal_moves)
+                                enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                    if square[1] == "5" and last_move[0] == "P" and reiheW.find(last_move[2])-1 == reiheW.find(square[0]):
+                        if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 7:
+                            if int(piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 5:
+                                now_square = [reiheW[reiheW.find(square[0])+1],zeileW[zeileW.find(square[1])+1]]
+                                legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                                enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
+
             if (king_move_count and rook_move_count)==0 and "R2f1" in legal_moves:
                 if "0-0" not in legal_moves:
                     key = [k for k, v in piece_pos.items() if v == "f1"[1]]
@@ -766,6 +779,8 @@ def get_legal_moves():
     
     return true_legal_moves
     """
+
+
     filter_legal_moves()
 
     return legal_moves
@@ -780,7 +795,6 @@ def filter_legal_moves():
 
         #aus piece_pos die geschlagene figur entfernen und dann gucken ob ohne die figur man immernoch im schach steht
         piece_to_delete = [key for key, value in piece_pos.items() if value == current_move[2]+current_move[3]]
-        print("Piece_TO_DELETE: ", piece_to_delete)
         if piece_to_delete:
             for key in piece_to_delete:
                 del piece_pos[key]
@@ -801,8 +815,6 @@ def filter_legal_moves():
 
 def is_check(enemy_moves):
     global legal_moves
-    print("These are the enemy_moves:\n",enemy_moves)
-    print("THESE ARE YOUR MOVES:\n", legal_moves)
     for current_move in enemy_moves:
         if current_move[2]+current_move[3] == piece_pos[move_right +"K1"]:
             
@@ -1583,7 +1595,6 @@ def is_legal(move):
             move_count+=1
             
             return True
-    print(move)
     if move != "":
         if move[0] == "R" or move[0] == "N" or move[0] == "B" or move[0] == "Q" or move[0] == "K" or move[0] == "P":
             if move[1]== "1" or move[1] == "2" or move[1] == "3" or move[1] == "4" or move[1] == "5" or move[1] == "6" or move[1] == "7" or move[1] == "8":
@@ -1592,9 +1603,13 @@ def is_legal(move):
                     if key:
                         if key[0] in piece_pos:
                             del piece_pos[key[0]]
-                            print("Movecount:",move_count)
-                            print("Das sind alle möglichen Züge1:\n",get_legal_moves())
-                            print(move_right)
+                            move_count+=1
+                            return True
+                    if move in enpassant_moves:
+                        asdfgj = int(move[3])-1
+                        key = [k for k, v in piece_pos.items() if v == move[2]+str(asdfgj)]
+                        if key:
+                            del piece_pos[key[0]]
                             move_count+=1
                             return True
                     else:
@@ -1602,24 +1617,25 @@ def is_legal(move):
                             king_move_count +=1
                         if move[0]== "R":
                             rook_move_count +=1
-                        print("Move Count:",move_count,move_right)
-                        print("Das sind alle möglichen Züge2:\n",get_legal_moves())
-                        print(move_right)
                         move_count+=1
 
                         return True
 
 def move_piece(move):
-    global move_right,last_last_move,before_piece_pos,last_move
+    global move_right,last_last_move,last_move, last_piece_pos
 
     if is_legal(move):
         if len(move) == 4 and move != "0-0-0" and move!="0-0": 
-            before_piece_pos = piece_pos
+            last_piece_pos = piece_pos.copy()
+            print("Last piece pos",last_piece_pos)
             piece_pos[move_right+move[0]+move[1]] = move[2]+move[3]
+            print("Piece pos",piece_pos)
             last_last_move = last_move
             last_move = move
             move = ""
         if move == "0-0-0":
+            last_piece_pos = piece_pos
+            last_last_move = last_move
             if move_right == "w":
                 piece_pos[move_right+"K1"] = "c1"
                 piece_pos[move_right+"R1"]= "d1"
@@ -1629,6 +1645,8 @@ def move_piece(move):
                 piece_pos[move_right+"R2"]= "f8"
                 move=""
         if move == "0-0":
+            last_piece_pos = piece_pos
+            last_last_move = last_move
             if move_right == "w":
                 piece_pos[move_right+"K1"] = "g1"
                 piece_pos[move_right+"R2"]= "f1"
@@ -1637,19 +1655,19 @@ def move_piece(move):
                 piece_pos[move_right+"K1"] = "g8"
                 piece_pos[move_right+"R2"]= "f8"
                 move=""
+        """
         if len(move)==7:
             if move [4]+move[5]+move[6]=="e.p":
                 if move_right == "w":
                     piece_pos[move_right+move[0]+move[1]] = move[2]+move[3]
                     key = [k for k, v in piece_pos.items() if v == move[2]+"5"]
                     if key:
-                        print(key[0])
                         if key[0] in piece_pos:
                             del piece_pos[key[0]]
                 if move_right == "b":
                     piece_pos[move_right+move[0]+move[1]] = move[2:3]
                     key = [k for k, v in piece_pos.items() if v == move[2]+"4"]
                     if key:
-                        print(key[0])
                         if key[0] in piece_pos:
                             del piece_pos[key[0]]
+        """
