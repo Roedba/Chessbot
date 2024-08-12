@@ -29,6 +29,7 @@ next_legal_moves=[]
 last_last_move = ""
 last_move = ""
 move_count = 1
+move_count3 = 0
 move = ""
 move_right = "w"
 opposite_move_right = "b"

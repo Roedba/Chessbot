@@ -376,18 +376,20 @@ def get_legal_moves():
                             if now_square[0]+now_square[1] in piece_pos.values() and key[0][0] == "b":
                                 legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
                     if square[1] == "5" and last_move[0] == "P" and reiheW.find(last_move[2])+1 == reiheW.find(square[0]):
-                        if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 7:
-                            if int(piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 5:
-                                now_square = [reiheW[reiheW.find(square[0])-1],zeileW[zeileW.find(square[1])+1]]
-                                legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
-                                print(legal_moves)
-                                enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                        if int(i[2])-1 > 0 and opposite_move_right+"P"+str(int(i[2])-1) in last_piece_pos:
+                            if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 7 and opposite_move_right+"P"+str(int(i[2])-1) in piece_pos:
+                                if int(piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 5:
+                                    now_square = [reiheW[reiheW.find(square[0])-1],zeileW[zeileW.find(square[1])+1]]
+                                    legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                                    print(legal_moves)
+                                    enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
                     if square[1] == "5" and last_move[0] == "P" and reiheW.find(last_move[2])-1 == reiheW.find(square[0]):
-                        if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 7:
-                            if int(piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 5:
-                                now_square = [reiheW[reiheW.find(square[0])+1],zeileW[zeileW.find(square[1])+1]]
-                                legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
-                                enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                        if int(i[2])+1 < 9 and opposite_move_right+"P"+str(int(i[2])+1) in last_piece_pos:
+                            if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 7 and opposite_move_right+"P"+str(int(i[2])+1) in piece_pos:
+                                if int(piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 5:
+                                    now_square = [reiheW[reiheW.find(square[0])+1],zeileW[zeileW.find(square[1])+1]]
+                                    legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                                    enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
 
             if (king_move_count and rook_move_count)==0 and "R2f1" in legal_moves and "K1f1" in legal_moves:
                 if "0-0" not in legal_moves:
@@ -765,22 +767,19 @@ def get_legal_moves():
                             legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
                     
                     if square[1] == "4" and last_move[0] == "P" and reiheB.find(last_move[2])+1 == reiheB.find(square[0]):
-                        print("test 1")
-                        if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 2:
-
-                            if int(piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 4:
-                                now_square = [reiheB[reiheB.find(square[0])-1],zeileB[zeileB.find(square[1])+1]]
-                                legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
-                                print(legal_moves)
-                                enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                        if int(i[2])-1 > 0 and opposite_move_right+"P"+str(int(i[2])-1) in last_piece_pos:
+                            if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 2 and opposite_move_right+"P"+str(int(i[2])+1) in piece_pos:
+                                if int(piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 4:
+                                    now_square = [reiheB[reiheB.find(square[0])-1],zeileB[zeileB.find(square[1])+1]]
+                                    legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                                    enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
                     if square[1] == "4" and last_move[0] == "P" and reiheB.find(last_move[2])-1 == reiheB.find(square[0]):
-                        if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 2:
-                            if int(piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 4:
-                                print("test 4")
-                                now_square = [reiheB[reiheB.find(square[0])+1],zeileB[zeileB.find(square[1])+1]]
-                                legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
-                                print(legal_moves)
-                                enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                        if int(i[2])+1 < 9 and opposite_move_right+"P"+str(int(i[2])+1) in last_piece_pos:
+                            if int(last_piece_pos[opposite_move_right+"P"+str(int(i[2])+1)][1]) == 2 and opposite_move_right+"P"+str(int(i[2])-1) in piece_pos:
+                                if int(piece_pos[opposite_move_right+"P"+str(int(i[2])-1)][1]) == 4:
+                                    now_square = [reiheB[reiheB.find(square[0])+1],zeileB[zeileB.find(square[1])+1]]
+                                    legal_moves.append("P"+i[2]+now_square[0]+now_square[1])
+                                    enpassant_moves.append("P"+i[2]+now_square[0]+now_square[1])
 
             if (king_move_count and rook_move_count)==0 and "R2f8" in legal_moves and "K1f8" in legal_moves:
                 if "0-0" not in legal_moves:
@@ -814,6 +813,18 @@ def get_legal_moves():
 def filter_legal_moves():
     global legal_moves
     new_legal_moves = []
+    if "0-0" in legal_moves:
+        legal_moves.remove("0-0")
+        if move_right == "w":
+            legal_moves.append("K1g1")
+        if move_right == "b":
+            legal_moves.append("K1g8")
+    if "0-0-0" in legal_moves:
+        legal_moves.remove("0-0-0")
+        if move_right == "w":
+            legal_moves.append("K1c1")
+        if move_right == "b":
+            legal_moves.append("K1c8")
     for current_move in legal_moves:
         # Speichern der aktuellen Position des bewegten Stücks
         piece_pos_change = piece_pos[move_right + current_move[0] + current_move[1]]
@@ -836,27 +847,40 @@ def filter_legal_moves():
         piece_pos[move_right + current_move[0] + current_move[1]] = piece_pos_change
         for key in piece_to_delete:
             piece_pos[key] = current_move[2]+current_move[3]
-        if move_right == "w" and current_move[0] == "P":
+        if move_right == "w" and current_move[0] == "P" and current_move in new_legal_moves:
             if current_move[3] == "8":
                 new_legal_moves.append(current_move+"Q")
                 new_legal_moves.append(current_move+"B")
                 new_legal_moves.append(current_move+"N")
                 new_legal_moves.remove(current_move)
 
-        if move_right == "b" and current_move[0] == "P":
+        if move_right == "b" and current_move[0] == "P" and current_move in new_legal_moves:
             if current_move[3] == "1":
                 new_legal_moves.append(current_move+"Q")
                 new_legal_moves.append(current_move+"B")
                 new_legal_moves.append(current_move+"N")
                 new_legal_moves.remove(current_move)
-
+    if move_right == "w":
+        if "K1f1" in new_legal_moves and "K1g1" in new_legal_moves:
+            new_legal_moves.remove("K1g1")
+            new_legal_moves.append("0-0")
+        if "K1d1" in new_legal_moves and "K1c1" in new_legal_moves:
+            new_legal_moves.remove("K1c1")
+            new_legal_moves.append("0-0-0")
+    if move_right == "b":
+        if "K1f8" in new_legal_moves and "K1g8" in new_legal_moves:
+            new_legal_moves.remove("K1g8")
+            new_legal_moves.append("0-0")
+        if "K1d8" in new_legal_moves and "K1c8" in new_legal_moves:
+            new_legal_moves.remove("K1c8")
+            new_legal_moves.append("0-0-0")
     legal_moves = new_legal_moves
     return legal_moves
 
 def is_check(enemy_moves):
     global legal_moves
     for current_move in enemy_moves:
-        if current_move[2]+current_move[3] == piece_pos[move_right +"K1"]:
+        if current_move != "0-0" and current_move != "0-0-0" and current_move[2]+current_move[3] == piece_pos[move_right +"K1"]:
             
             return True
 
@@ -1762,4 +1786,7 @@ def move_piece(move):
         """
 
 def eval():
-    return random.choice(get_legal_moves())
+    if len(get_legal_moves()) > 0:
+        return random.choice(get_legal_moves())
+    else:
+        piece_pos.update(starting_pos)
