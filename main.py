@@ -1536,11 +1536,11 @@ while running:
                         move_right_b = "b"
                 else:
                     move_right_b = "b"
-                if move_right_b =="b":
-                    move = user_text
-                    user_text = ""
-                    move_piece(move)
-                    print(get_legal_moves())
+                #if move_right_b =="b":
+                move = user_text
+                user_text = ""
+                move_piece(move)
+                print(get_legal_moves())
                 
                 
                 move_count2 += 1
@@ -1557,7 +1557,7 @@ while running:
                 user_text = user_text[:-1]
             else:
                 user_text += event.unicode
-    
+    """
     if move_right_b == "w":
         if eval():
             move = eval()
@@ -1571,7 +1571,7 @@ while running:
                 piece_pos.update(starting_pos)
                 move_count3 += move_count2
                 move_count2 = 0
-    
+    """
     screen.fill((0,0,0))
     pygame.draw.rect(screen, (0,0,0), input_rect)
     pygame.draw.rect(screen, (0,0,0), input_rect, 2)
