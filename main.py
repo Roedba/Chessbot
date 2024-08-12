@@ -2,7 +2,7 @@ import pygame
 import sys
 from functions import *
 from definitions import *
-
+import time
 pygame.init()
 
 pygame.display.set_caption("Schachengine")
@@ -1526,17 +1526,23 @@ def get_reverse_legal_moves():
     return reverse_legal_moves
 """
 running = True
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
+                if move_count2 % 2 == 0:
+                        move_right_b = "b"
+                else:
+                    move_right_b = "b"
+                #if move_right_b =="w":
                 move = user_text
                 user_text = ""
                 move_piece(move)
                 print(get_legal_moves())
+                
+                
                 move_count2 += 1
                 if is_checkmate() == "CHECKMATE":
                     if move_count2 % 2 == 0:
@@ -1551,7 +1557,16 @@ while running:
                 user_text = user_text[:-1]
             else:
                 user_text += event.unicode
-    
+    """
+    if move_right_b == "b":
+                    move = eval()
+                    print(get_legal_moves())
+                    print(move)
+                    move_piece(move)
+                    move_count2 += 1
+                    time.sleep(1)
+                    move_right_b = "w"
+    """
     screen.fill((0,0,0))
     pygame.draw.rect(screen, (0,0,0), input_rect)
     pygame.draw.rect(screen, (0,0,0), input_rect, 2)
