@@ -1670,7 +1670,7 @@ def is_legal(move):
                         return True
 
 def move_piece(move):
-    global move_right,last_last_move,last_move, last_piece_pos
+    global move_right,last_last_move,last_move, last_piece_pos, w_queen_count, w_bishop_count, w_knight_count, b_bishop_count, b_knight_count, b_queen_count, b_rook_count, w_rook_count
 
     if is_legal(move):
         if len(move) == 4 and move != "0-0-0" and move!="0-0": 
@@ -1683,7 +1683,45 @@ def move_piece(move):
             if move_right == "w":
                 if move[4] == "Q":
                     del piece_pos[move_right+move[0]+move[1]]
+                    w_queen_count += 1
                     piece_pos[move_right+"Q"+str(w_queen_count)] = move[2]+move[3]
+
+                if move[4] == "R":
+                    del piece_pos[move_right+move[0]+move[1]]
+                    w_rook_count += 1
+                    piece_pos[move_right+"r"+str(w_rook_count)] = move[2]+move[3]
+
+                if move[4] == "N":
+                    del piece_pos[move_right+move[0]+move[1]]
+                    w_knight_count += 1
+                    piece_pos[move_right+"N"+str(w_knight_count)] = move[2]+move[3]
+
+                if move[4] == "B":
+                    del piece_pos[move_right+move[0]+move[1]]
+                    w_bishop_count += 1
+                    piece_pos[move_right+"B"+str(w_bishop_count)] = move[2]+move[3]
+
+            if move_right == "b":
+                if move[4] == "Q":
+                    del piece_pos[move_right+move[0]+move[1]]
+                    b_queen_count += 1
+                    piece_pos[move_right+"Q"+str(b_queen_count)] = move[2]+move[3]
+
+                if move[4] == "R":
+                    del piece_pos[move_right+move[0]+move[1]]
+                    b_rook_count += 1
+                    piece_pos[move_right+"R"+str(b_rook_count)] = move[2]+move[3]
+
+                if move[4] == "N":
+                    del piece_pos[move_right+move[0]+move[1]]
+                    b_knight_count += 1
+                    piece_pos[move_right+"N"+str(b_knight_count)] = move[2]+move[3]
+
+                if move[4] == "B":
+                    del piece_pos[move_right+move[0]+move[1]]
+                    b_bishop_count += 1
+                    piece_pos[move_right+"B"+str(b_bishop_count)] = move[2]+move[3]
+
         if move == "0-0-0":
             last_piece_pos = piece_pos
             last_last_move = last_move
