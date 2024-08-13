@@ -1787,7 +1787,7 @@ def move_piece(move):
 
 def minimax():
     global minimax_value
-    best_move = ""
+    minimax_value = 0
     for move in get_legal_moves():
         minimax_piece_pos.update(piece_pos)
         minimax_piece_to_delete = [key for key, value in minimax_piece_pos.items() if value == move[2]+move[3]]
@@ -1798,10 +1798,11 @@ def minimax():
         if minimax_value == "":
             best_move = move
             minimax_value = eval(minimax_piece_pos)
-            continue
+            
         if minimax_value <= eval(minimax_piece_pos):
             best_move = move
             minimax_value = eval(minimax_piece_pos)
+        print(best_move)
     return best_move
 def eval(eval_piece_pos):
     global move_right

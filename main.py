@@ -1542,6 +1542,7 @@ while running:
                     user_text = ""
                     move_piece(move)
                     print(get_legal_moves())
+                    print("MOVERIGHTBBBBBBBBB",move_right_b)
                     
                 
                 if is_checkmate() == "CHECKMATE":
@@ -1559,11 +1560,12 @@ while running:
                 user_text += event.unicode
     
     if move_right_b == "w":
+        move_right_b = "w"
+        print("ENGINE GETS TO MOVE NOW")
         move = minimax()
-        print(get_legal_moves())
-        print(move)
+        print("THE ENGINE MOVE: ",move)
         move_piece(move)
-        move_right_b = "b"
+
         """if move_count2 > 60:
             piece_pos.update(starting_pos)
             move_count3 += move_count2
