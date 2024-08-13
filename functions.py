@@ -1785,8 +1785,32 @@ def move_piece(move):
                             del piece_pos[key[0]]
         """
 
-def eval():
-    if len(get_legal_moves()) > 0:
+def minimax():
+    global minimax_value
+    best_move = ""
+    for move in get_legal_moves():
+        minimax_piece_pos.update(piece_pos)
+        minimax_piece_to_delete = [key for key, value in minimax_piece_pos.items() if value == move[2]+move[3]]
+        if minimax_piece_to_delete:
+            for key in minimax_piece_to_delete:
+                del minimax_piece_pos[key]
+        minimax_piece_pos[move_right+move[0]+move[1]] = move[2]+move[3]
+        if minimax_value == "":
+            best_move = move
+            minimax_value = eval(minimax_piece_pos)
+            continue
+        if minimax_value <= eval(minimax_piece_pos):
+            best_move = move
+            minimax_value = eval(minimax_piece_pos)
+    return best_move
+def eval(eval_piece_pos):
+    global move_right
+    eval_value = 0
+    """if len(get_legal_moves()) > 0:
         return random.choice(get_legal_moves())
     else:
-        piece_pos.update(starting_pos)
+        piece_pos.update(starting_pos)"""
+    for piece, square in eval_piece_pos.items():
+        eval_value += piece_values[piece[0]+piece[1]]
+        
+    return eval_value
